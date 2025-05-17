@@ -1,3 +1,5 @@
+// Código sem omp parallel reduction
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
