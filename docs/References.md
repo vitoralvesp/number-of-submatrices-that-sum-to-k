@@ -4,3 +4,6 @@ https://stackoverflow.com/questions/28403614/number-of-submatrix-with-sum-k?__cf
 
 
 https://www.geeksforgeeks.org/sum-of-all-submatrices-of-a-given-matrix/
+
+
+https://www.openmp.org/spec-html/5.0/openmpsu107.html
