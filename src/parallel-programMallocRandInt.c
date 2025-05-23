@@ -16,6 +16,11 @@ int **A;
 
 /**
  * @brief Conta subarrays com soma igual a k
+ * @details Complexidade de Tempo de O(n^2)
+ * @param nums subarray
+ * @param size tamanho do subarray
+ * @param k valor k para comparacao
+ * @return total de 1 subarray com soma equivalente a k
  */
 ll count_subarrays_with_sum_k(int *nums, int size, int k) {
     ll count = 0;
@@ -34,6 +39,11 @@ ll count_subarrays_with_sum_k(int *nums, int size, int k) {
 
 /**
  * @brief Calcula submatrizes com soma igual a k
+ * @details Complexidade de Tempo de O(n^3)
+ * @param m dimensao m da matriz
+ * @param n dimensao n da matriz
+ * @param k valor k para comparacao
+ * @return total de subarrays com soma equivalente a k
  */
 ll solve(int m, int n, int k) {
     ll ans = 0;
@@ -63,17 +73,15 @@ int main() {
     printf("Digite K, M e N (ex: 5 1000 1000): ");
     scanf("%d %d %d", &k, &m, &n);
 
-    // Aloca matriz dinamicamente
     A = (int **)malloc(m * sizeof(int *));
     for (int i = 0; i < m; i++) {
         A[i] = (int *)malloc(n * sizeof(int));
     }
 
-    // Preenche com números aleatórios
     srand(time(NULL));
     for (int i = 0; i < m; i++)
         for (int j = 0; j < n; j++)
-            A[i][j] = rand() % 10; // Aleatórios entre 0 e 9
+            A[i][j] = rand() % 10; 
 
     double tempo_init = omp_get_wtime();
 
@@ -83,10 +91,10 @@ int main() {
     double tempo_fim = omp_get_wtime();
     printf("Tempo total de execução = %f segundos.\n", tempo_fim - tempo_init);
 
-    // Libera memória
     for (int i = 0; i < m; i++)
         free(A[i]);
     free(A);
 
     return 0;
 }
+
