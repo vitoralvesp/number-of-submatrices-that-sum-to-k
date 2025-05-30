@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <omp.h>
+#include <time.h>
 
 #define MAX_M 1000
 #define MAX_N 1000
@@ -27,7 +28,6 @@ typedef long long ll;
 ll count_subarrays_with_sum_k(int *nums, int size, int k) {
     ll count = 0;
 
-    #pragma omp parallel for reduction(+:count)
     for (int start = 0; start < size; start++) {
         int sum = 0;
         for (int end = start; end < size; end++) {
@@ -49,19 +49,18 @@ ll count_subarrays_with_sum_k(int *nums, int size, int k) {
  */
 ll solve(int m, int n, int k) {
     ll ans = 0;
-    int temp[MAX_N];
 
-    #pragma omp parallel for reduction(+:ans)
-    for (int top = 0; top < m; top++) {
-        memset(temp, 0, sizeof(temp)); // temp[0..n] = temp[0,0,0,...,0]
+#pragma omp parallel for reduction(+:ans)
+for (int top = 0; top < m; top++) {
+    int temp[MAX_N] = {0}; // temp privado para cada iteração/thread
 
-        for (int bottom = top; bottom < m; bottom++) {
-            for (int j = 0; j < n; j++)
-                temp[j] += A[bottom][j];
+    for (int bottom = top; bottom < m; bottom++) {
+        for (int j = 0; j < n; j++)
+            temp[j] += A[bottom][j];
 
-            ans += count_subarrays_with_sum_k(temp, n, k);
-        }
+        ans += count_subarrays_with_sum_k(temp, n, k);
     }
+}
 
     return ans;
 }
@@ -70,15 +69,27 @@ int main() {
 
     int k, m, n; // Valor de k e Dimensoes da Matriz
     ll solution;
+    int num_threads;
+
+    printf("Numero de threads: \n");
+    scanf("%d", &num_threads);
+    omp_set_num_threads(num_threads);
 
     scanf("%d %d %d", &k, &m, &n);
 
+     srand(time(NULL));
     for (int i = 0; i < m; i++)
         for (int j = 0; j < n; j++)
-            scanf("%d", &A[i][j]);
+            A[i][j] = rand() % 10; 
 
+
+    double tempo_init = omp_get_wtime();
+  
     solution = solve(m, n, k);
     printf("%lld\n", solution);
+
+    double tempo_fim = omp_get_wtime();
+    printf("Tempo total de execução = %f segundos.\n", tempo_fim - tempo_init);
     
     return 0;
 }
