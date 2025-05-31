@@ -9,7 +9,6 @@
 #include <string.h>
 #include <omp.h>
 #include <time.h>
-#include <conio.h> // getch(), pausa na tela
 
 #define MAX_M 1000
 #define MAX_N 1000
@@ -69,59 +68,48 @@ for (int top = 0; top < m; top++) {
 int main() {
 
     FILE *pont_arq;
-    int i,j,mat[m][n];
-    char texto[1000];
+    int i, j;
+    int m, n, k;
     int num_threads;
     ll solution;
 
-    // Alterar nome do arquivo de acordo com a necessidade
-    pont_arq = fopen("matriz.in","r");
-    
-    if (pont_arq != NULL){
-        printf("Arquivo carregado com sucesso\n")
-    }
-    else{
-        print("Erro ao carregar arquivo\n")
+    pont_arq = fopen("matrix1.in", "r");
+    if (pont_arq == NULL) {
+        printf("Arquivo foi carregado com suces\n");
+        return 1;
     }
 
-    fgets(texto,1000,pont_arq);
-    for(i = 0; i < m; i++){
-        for(j = 0; j < n; i++){
-            fscanf(arq,"%d",&mat[i][j]);
-            printf("%d", mat[i][j]);
+    printf("Arquivo carregado com sucesso.\n");
+    
+    if (fscanf(pont_arq, "%d %d %d", &k, &m, &n) != 3) {
+        printf("Erro ao ler k, m e n do arquivo.\n");
+        fclose(pont_arq);
+        return 1;
+    }
+
+    for (i = 0; i < m; i++) {
+        for (j = 0; j < n; j++) {
+            if (fscanf(pont_arq, "%d", &A[i][j]) != 1) {
+                printf("Erro ao ler elemento A[%d][%d].\n", i, j);
+                fclose(pont_arq);
+                return 1;
+            }
         }
     }
 
-    printf("Numero de threads: \n");
+    fclose(pont_arq);
+
+    printf("Numero de threads: ");
     scanf("%d", &num_threads);
     omp_set_num_threads(num_threads);
-    
-    /*
-    int k, m, n;  Valor de k e Dimensoes da Matriz
-    ll solution;
-    int num_threads;
-
-    printf("Numero de threads: \n");
-    scanf("%d", &num_threads);
-    omp_set_num_threads(num_threads);
-
-    scanf("%d %d %d", &k, &m, &n);
-
-     srand(time(NULL));
-    for (int i = 0; i < m; i++)
-        for (int j = 0; j < n; j++)
-            A[i][j] = rand() % 10; 
-
-    
-    */
 
     double tempo_init = omp_get_wtime();
-  
+
     solution = solve(m, n, k);
-    printf("%lld\n", solution);
+    printf("Total de submatrizes com soma %d: %lld\n", k, solution);
 
     double tempo_fim = omp_get_wtime();
     printf("Tempo total de execução = %f segundos.\n", tempo_fim - tempo_init);
-    
+
     return 0;
 }
