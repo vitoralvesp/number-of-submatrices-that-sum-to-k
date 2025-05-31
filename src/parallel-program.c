@@ -9,6 +9,7 @@
 #include <string.h>
 #include <omp.h>
 #include <time.h>
+#include <conio.h> // getch(), pausa na tela
 
 #define MAX_M 1000
 #define MAX_N 1000
@@ -67,7 +68,36 @@ for (int top = 0; top < m; top++) {
 
 int main() {
 
-    int k, m, n; // Valor de k e Dimensoes da Matriz
+    FILE *pont_arq;
+    int i,j,mat[m][n];
+    char texto[1000];
+    int num_threads;
+    ll solution;
+
+    // Alterar nome do arquivo de acordo com a necessidade
+    pont_arq = fopen("matriz.in","r");
+    
+    if (pont_arq != NULL){
+        printf("Arquivo carregado com sucesso\n")
+    }
+    else{
+        print("Erro ao carregar arquivo\n")
+    }
+
+    fgets(texto,1000,pont_arq);
+    for(i = 0; i < m; i++){
+        for(j = 0; j < n; i++){
+            fscanf(arq,"%d",&mat[i][j]);
+            printf("%d", mat[i][j]);
+        }
+    }
+
+    printf("Numero de threads: \n");
+    scanf("%d", &num_threads);
+    omp_set_num_threads(num_threads);
+    
+    /*
+    int k, m, n;  Valor de k e Dimensoes da Matriz
     ll solution;
     int num_threads;
 
@@ -82,6 +112,8 @@ int main() {
         for (int j = 0; j < n; j++)
             A[i][j] = rand() % 10; 
 
+    
+    */
 
     double tempo_init = omp_get_wtime();
   
