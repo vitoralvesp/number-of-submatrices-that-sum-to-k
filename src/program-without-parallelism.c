@@ -64,17 +64,48 @@ ll solve(int m, int n, int k) {
 
 int main() {
 
+    FILE *pont_arq;
+    int i, j;
     int k, m, n; // Valor de k e Dimensoes da Matriz
     ll solution;
 
-    scanf("%d %d %d", &k, &m, &n);
+    // scanf("%d %d %d", &k, &m, &n);
 
-    for (int i = 0; i < m; i++)
-        for (int j = 0; j < n; j++)
-            scanf("%d", &A[i][j]);
+    // for (int i = 0; i < m; i++)
+    //     for (int j = 0; j < n; j++)
+    //         scanf("%d", &A[i][j]);
+
+    // solution = solve(m, n, k);
+    // printf("%lld\n", solution);
+
+    // Leitura de Arquivo
+
+    pont_arq = fopen("./test/matrix5.in", "r");
+    if (pont_arq == NULL) {
+        printf("Arquivo nao foi carregado...\n");
+        return 1;
+    }
+
+    if (fscanf(pont_arq, "%d %d %d", &k, &m, &n) != 3) {
+        printf("Erro ao ler k, m e n do arquivo.\n");
+        fclose(pont_arq);
+        return 1;
+    }
+
+    for (i = 0; i < m; i++) {
+        for (j = 0; j < n; j++) {
+            if (fscanf(pont_arq, "%d", &A[i][j]) != 1) {
+                printf("Erro ao ler elemento A[%d][%d].\n", i, j);
+                fclose(pont_arq);
+                return 1;
+            }
+        }
+    }
+
+    fclose(pont_arq);
 
     solution = solve(m, n, k);
-    printf("%lld\n", solution);
-    
+    printf("Total de submatrizes com soma %d: %lld\n", k, solution);
+
     return 0;
 }

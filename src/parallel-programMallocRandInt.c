@@ -67,9 +67,12 @@ ll solve(int m, int n, int k) {
 }
 
 int main() {
+    FILE *pont_arq;
+    int i, j;
     int k, m, n;
     ll solution;
 
+    /*
     printf("Digite K, M e N (ex: 5 1000 1000): ");
     scanf("%d %d %d", &k, &m, &n);
 
@@ -90,6 +93,35 @@ int main() {
 
     double tempo_fim = omp_get_wtime();
     printf("Tempo total de execução = %f segundos.\n", tempo_fim - tempo_init);
+    */
+
+    pont_arq = fopen("./test/matrix5.in", "r");
+    if (pont_arq == NULL) {
+        printf("Arquivo nao foi carregado...\n");
+        return 1;
+    }
+
+    if (fscanf(pont_arq, "%d %d %d", &k, &m, &n) != 3) {
+        printf("Erro ao ler k, m e n do arquivo.\n");
+        fclose(pont_arq);
+        return 1;
+    }
+
+    for (i = 0; i < m; i++) {
+        for (j = 0; j < n; j++) {
+            if (fscanf(pont_arq, "%d", &A[i][j]) != 1) {
+                printf("Erro ao ler elemento A[%d][%d].\n", i, j);
+                fclose(pont_arq);
+                return 1;
+            }
+        }
+    }
+
+    fclose(pont_arq);
+
+    solution = solve(m, n, k);
+    printf("Total de submatrizes com soma %d: %lld\n", k, solution);
+
 
     for (int i = 0; i < m; i++)
         free(A[i]);
