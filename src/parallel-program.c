@@ -70,12 +70,11 @@ int main() {
     FILE *pont_arq;
     int i, j;
     int m, n, k;
-    int num_threads;
     ll solution;
 
     pont_arq = fopen("matrix1.in", "r");
     if (pont_arq == NULL) {
-        printf("Arquivo foi carregado com suces\n");
+        printf("Arquivo foi carregado com sucesso\n");
         return 1;
     }
 
@@ -99,17 +98,8 @@ int main() {
 
     fclose(pont_arq);
 
-    printf("Numero de threads: ");
-    scanf("%d", &num_threads);
-    omp_set_num_threads(num_threads);
-
-    double tempo_init = omp_get_wtime();
-
     solution = solve(m, n, k);
     printf("Total de submatrizes com soma %d: %lld\n", k, solution);
-
-    double tempo_fim = omp_get_wtime();
-    printf("Tempo total de execução = %f segundos.\n", tempo_fim - tempo_init);
 
     return 0;
 }
